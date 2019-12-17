@@ -44,7 +44,12 @@
   },
   "dependencies": {
     "d3": "^5.9.2",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "rollup": "^1.27.5",
+    "rollup-plugin-copy": "^0.2.3",
+    "rollup-plugin-node-resolve": "^4.2.4",
+    "uglify-js": "^3.7.0",
+    "uglifycss": "0.0.29"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

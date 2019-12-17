@@ -1,3 +1,4 @@
+
 import * as d3 from "d3";
 import rest from "../../rest/rest";
 import result from "../../result/result";
@@ -101,18 +102,21 @@ node.updateData = function () {
     if (graph.hasGraphChanged) {
         node.updateAutoLoadValues();
 
-        if (!graph.DISABLE_COUNT && !graph.ignoreCount) {
+  /*      if (!graph.DISABLE_COUNT && !graph.ignoreCount) {
             node.updateCount();
-        }
+        }*/
     }
     graph.hasGraphChanged = false;
 
     return data;
 };
 
+
 /**
  * Update nodes and result counts by executing a query for every nodes with the new graph structure.
  */
+/*
+
 node.updateCount = function () {
 
     // Abort any old running request before starting a new one
@@ -179,6 +183,7 @@ node.updateCount = function () {
             }
         });
 };
+*/
 
 /**
  * Update values for nodes having preloadData property
@@ -340,7 +345,61 @@ node.addMiddlegroundElements = function (gNewNodeElements) {
 node.addForegroundElements = function (gNewNodeElements) {
     var foreground = gNewNodeElements
         .append("g")
-        .attr("class", "ppt-g-node-foreground");
+        .attr("class", "ppt-g-node-foreground")
+        .append("g")
+        .attr("class","dropdown");
+
+    var buttonNames = ["button 1", "button 2", "button 3", "button 4"];
+    var l=4;
+    var i=0;
+    for(i=0;i<buttonNames.length;i++){if(l<buttonNames[i].length)l=buttonNames[i].length};
+    var width = 400, height = 300;
+    l=l*10;
+    foreground.append('rect')
+            .attr("width", 100)
+            .attr("height", 30)
+            .attr("x", 10)
+            .attr("y", 10)
+            .attr('id','dd')
+            .attr("class", "actions")
+            .style("height",30)
+            .style("width",100)
+    foreground.append("text")
+            .attr("x", 15)
+              .attr("y",20 )
+            .attr("id","mydropdown")
+              .text( buttonNames[0]);
+    var options = foreground.selectAll(".myBars")
+              .data(buttonNames)
+              .enter()
+              .append("g");
+    options.attr("class", "option").on("click", function() { document.getElementById("mydropdown").innerHTML=this.getElementsByTagName("text")[0].innerHTML;
+              d3.event.stopPropagation();
+            });
+    options.append("rect").attr("x",node.CountBox.x )
+            .attr("y", function(d,i){ return 40 + i*30})
+            .attr("width", l)
+            .attr("height", 30);
+    options.append("text").attr("x", function(d){ return node.CountBox.x + 5})
+            .attr("y", function(d,i){ return 60 + i*30})
+            .text(function(d){ return d});
+
+    /*foreground.append('select')
+            .attr('id','dropdown')
+    foreground // Add a button
+            .selectAll('myOptions') // Next 4 lines add 6 options = 6 colors
+               .data(buttonNames)
+            .enter()
+              .append('option')
+            .text(function (d) { return d; }) // text showed in the menu
+            .attr("value", function (d) { return d; })*/
+    /*foreground.on("change", function(d) {
+
+                // recover the option that has been chosen
+                var selectedOption = d3.select(this).property("value")
+            })*/
+
+    
 
     // Arrows icons added only for root and choose nodes
     var gArrow = foreground.filter(function (d) {
@@ -397,35 +456,148 @@ node.addForegroundElements = function (gNewNodeElements) {
         }
     });
 
+
     // Count box
-    if (!graph.DISABLE_COUNT) {
+	
+
+   /* if (!graph.DISABLE_COUNT) {
         var countForeground = foreground.filter(function (d) {
             return d.type !== node.NodeTypes.GROUP;
         });
+        var test=["data1"," data2"," data3"," data4"];
+        //console.log('countf'+JSON.stringify(countForeground))
+        //console.log('counth'+ JSON.stringify(countForeground.html()))
 
+            
+       // node.CountBox.append('select')
         countForeground
             .append("rect")
+            .attr("width", 100)
+            .attr("height", 30)
             .attr("x", node.CountBox.x)
             .attr("y", node.CountBox.y)
-            .attr("width", node.CountBox.w)
-            .attr("height", node.CountBox.h)
-            .attr("class", "ppt-count-box");
+            .attr('id','dd')
+            .attr("class", "ppt-count-box")
+            .style("height",30)
+            .style("width",100)
+            .html('<p>hey man</p>');
+          //  .html('<option value="first">First</option><option value="second">Second</option><option value="third">Third</option><option value="forth">Forth</option>');
 
-        countForeground
+            // .html('<select id="d3-dropdown"><option value="first">First</option><option value="second">Second</option><option value="third">Third</option><option value="forth">Forth</option></select><p id="selected-dropdown"></p>')
+            
+            // .attr("width", node.CountBox.w)
+            // .attr("height", node.CountBox.h)
+            // .attr("width", 100)
+            // .attr("height", 30)
+            
+	       // .select("rect");
+	//   .append("select");
+	    //    .attr('class','select');
+//	    .on('change', onChange);
+    var dropdown= d3.select(".ppt-count-box.root")
+    dropdown.html('<select id="d3-dropdown"><option value="first">First</option><option value="second">Second</option><option value="third">Third</option><option value="forth">Forth</option></select><p id="selected-dropdown"></p>')
+            
+    d3.select('select')
+        .on("change",function(d){
+            var selected = d3.select("#d3-dropdown").node().value;
+        console.log( selected );
+        })*/
+
+
+
+
+        /*    .on("change",function(d){
+            var selected = d3.select("#ppt-count-box").node().value;
+        console.log( selected );
+        })*/
+
+	
+/*	countForeground.selectAll('option')
+			.data(test)
+			.enter()
+			.append('option')
+			.text(function(d) {console.log("ABCD__" + d); return d;})
+			.attr("value", function(d) {return d;});
+
+		countForeground.on("change", function(d) {
+		var selectedOption = d3.select(this).property("value");
+	console.log("Change function");
+})*/
+/*	countForeground.on("click", function(d) { 
+	console.log("Click is Working");
+	var dropdown=d3
+	.select('countForeground')
+	.selectAll('option')
+	.data(test)
+	.enter()
+	.append('option')
+	.text(function (d) { return d; }) 
+	.attr("value", function (d) { return d; });
+	.style("display", "block")
+	.transition()
+	.attr('fill', '#00ff00');
+	alert('Working');
+	}); */
+
+        /*countForeground
             .append("text")
             .attr("x", 42)
             .attr("y", 48)
             .attr("text-anchor", "middle")
-            .attr("class", "ppt-count-text");
-    }
+            .attr("class", "ppt-count-text");*/
+        //console.log('countf'+ JSON.stringify(countForeground.html()))
+        /*countForeground.on("change",function(d){
+            var selected = d3.select("#d3-dropdown").node().value;
+            console.log( selected );
+        })*/
 
-    var ban = foreground.filter(function (d) {
+        /*var dropdown = d3.select("rect")
+        dropdown.append('select')
+        dropdown.text('first')*/
+        /*dropdown
+            .selectAll('myoptions')
+                .data(test)
+            .enter()
+                .append('option')
+            .text(function (d) { return d; }) // text showed in the menu
+            .attr("value", function (d) { return d; })
+        
+        dropdown.on("change", function(d) {
+
+                // recover the option that has been chosen
+            var selectedOption = d3.select(this).property("value")
+            console.log('selopt'+ selectedOption)
+        })*/
+
+/*    d3.selectAll('rect')
+        .on("change", function(d) {
+            var selectedOption = d3.select(this).property("value");
+        console.log("Change function");
+        })*/
+/*	countForeground.selectAll('option')
+                        .data(test)
+                        .enter()
+                        .append('option')
+                        .text(function(d) {console.log("ABCD__" + d); return d;})
+                        .attr("value", function(d) {console.log("qwerty--"+ d); return d;});
+
+        countForeground.on("change", function(d) {
+                var selectedOption = d3.select(this).property("value");
+            console.log("Change function");
+
+    })*/
+	
+}
+   /* var ban = foreground.filter(function (d) {
         return d.type === node.NodeTypes.CHOOSE;
     }).append("g")
         .attr("class", "ppt-g-node-ban")
         .append("path")
         .attr("d", "M89.1 19.2C88 17.7 86.6 16.2 85.2 14.8 83.8 13.4 82.3 12 80.8 10.9 72 3.9 61.3 0 50 0 36.7 0 24.2 5.4 14.8 14.8 5.4 24.2 0 36.7 0 50c0 11.4 3.9 22.1 10.9 30.8 1.2 1.5 2.5 3 3.9 4.4 1.4 1.4 2.9 2.7 4.4 3.9C27.9 96.1 38.6 100 50 100 63.3 100 75.8 94.6 85.2 85.2 94.6 75.8 100 63.3 100 50 100 38.7 96.1 28 89.1 19.2ZM11.9 50c0-10.2 4-19.7 11.1-27C30.3 15.9 39.8 11.9 50 11.9c8.2 0 16 2.6 22.4 7.3L19.3 72.4C14.5 66 11.9 58.2 11.9 50Zm65 27c-7.2 7.1-16.8 11.1-27 11.1-8.2 0-16-2.6-22.4-7.4L80.8 27.6C85.5 34 88.1 41.8 88.1 50c0 10.2-4 19.7-11.1 27z");
-};
+
+
+        //console.log("Foreground-- " + JSON.stringify(countForeground))
+    
 
 /**
  * Updates all elements.
@@ -1005,7 +1177,7 @@ node.mouseOutNode = function () {
 /**
  * Handle the click event on nodes.
  */
-node.nodeClick = function () {
+/*node.nodeClick = function () {
     if (!d3.event.defaultPrevented) { // To avoid click on drag end
         var clickedNode = d3.select(this).data()[0]; // Clicked node data
         logger.debug("nodeClick (" + clickedNode.label + ")");
@@ -1048,7 +1220,7 @@ node.nodeClick = function () {
             }
         }
     }
-};
+};*/
 
 /**
  * Remove all the value node directly linked to clicked node.
@@ -1920,9 +2092,11 @@ node.clearSelection = function () {
         }
 
         result.hasChanged = true;
-        graph.hasGraphChanged = true;
         update();
     }
 };
 
 export default node;
+console.log('node'+JSON.stringify(node))
+var dd = d3.select('#popoto-gnodes')
+dd.text('hey man')

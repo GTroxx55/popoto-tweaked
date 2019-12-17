@@ -96,7 +96,22 @@
     stroke-width: 2px;
     marker-mid: url("#cross");
 }
-
+rect {
+	fill: teal;
+}
+.dropdown .option {
+  display:none;
+}
+.dropdown rect{
+  stroke-width:0.5;
+  stroke:rgb(0,0,0)
+}
+.dropdown:hover .option {
+  display:unset;
+}
+.dropdown {
+  cursor:pointer;
+}
 /* Path for relation with value nodes */
 
 .ppt-link__path--value {

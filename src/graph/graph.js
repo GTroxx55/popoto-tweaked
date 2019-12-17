@@ -14,7 +14,7 @@ graph.link = link;
 graph.node = node;
 
 graph.DISABLE_RELATION = false;
-graph.DISABLE_COUNT = false;
+graph.DISABLE_COUNT = true;
 
 /**
  * ID of the HTML component where the graph query builder elements will be generated in.
@@ -213,7 +213,7 @@ graph.createGraphArea = function () {
     graph.svg = graph.svgTag.append("svg:g");
 
     // Create two separated area for links and nodes
-    // Links and nodes are separated in a dedicated "g" element
+    // Links and nodes are separated in a dedicated  element
     // and nodes are generated after links to ensure that nodes are always on foreground.
     graph.svg.append("g").attr("id", graph.link.gID);
     graph.svg.append("g").attr("id", graph.node.gID);
